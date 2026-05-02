@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>shiftsoft — Shift the Standard</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;1,9..40,200;1,9..40,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  :root{--bg:#080808;--white:#f0efe8;--dim:rgba(240,239,232,0.35);--border:rgba(240,239,232,0.08);--mono:'DM Mono',monospace;--sans:'DM Sans',sans-serif}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--sans);background:var(--bg);color:var(--white);min-height:100vh;overflow-x:hidden}
+  nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:1.4rem 2.5rem;border-bottom:1px solid var(--border);background:rgba(8,8,8,0.85);backdrop-filter:blur(12px)}
+  .logo{display:flex;align-items:center;gap:10px}
+  .logo-key{width:52px;height:20px;border:1.5px solid rgba(240,239,232,0.4);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;font-family:var(--mono);color:rgba(240,239,232,0.6);letter-spacing:0.05em}
+  .logo-name{font-size:14px;font-weight:300;letter-spacing:0.05em;color:var(--dim)}
+  .nav-right{display:flex;align-items:center;gap:2rem}
+  .nav-link{font-size:12px;font-family:var(--mono);color:var(--dim);text-decoration:none;letter-spacing:0.06em;transition:color 0.2s}
+  .nav-link:hover{color:var(--white)}
+  .nav-tag{font-size:10px;font-family:var(--mono);color:rgba(240,239,232,0.25);letter-spacing:0.1em;border:1px solid var(--border);padding:0.3rem 0.7rem;border-radius:3px}
+  .bg-line{position:fixed;top:0;right:18%;width:1px;height:100vh;background:linear-gradient(to bottom,transparent,rgba(240,239,232,0.06) 30%,rgba(240,239,232,0.06) 70%,transparent);pointer-events:none}
+  .bg-line2{position:fixed;top:0;right:34%;width:1px;height:100vh;background:linear-gradient(to bottom,transparent,rgba(240,239,232,0.03) 30%,rgba(240,239,232,0.03) 70%,transparent);pointer-events:none}
+  .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:8rem 2.5rem 5rem;max-width:1100px;margin:0 auto}
+  .eyebrow{display:flex;align-items:center;gap:0.75rem;margin-bottom:3rem}
+  .eyebrow-dot{width:5px;height:5px;border-radius:50%;background:#a3e635;animation:blink 2.5s ease-in-out infinite}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+  .eyebrow-text{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:0.12em}
+  h1{font-size:clamp(3.2rem,6.5vw,5.8rem);font-weight:200;line-height:1.03;letter-spacing:-0.025em;color:var(--white);margin-bottom:1.2rem}
+  h1 .muted{color:rgba(240,239,232,0.25)}
+  h1 .italic{font-style:italic;font-weight:200}
+  .slogan{font-family:var(--mono);font-size:12px;letter-spacing:0.18em;color:rgba(240,239,232,0.22);margin-bottom:2.5rem;text-transform:uppercase}
+  .hero-body{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:end;margin-top:5rem;padding-top:3rem;border-top:1px solid var(--border)}
+  .hero-desc{font-size:15px;color:var(--dim);line-height:1.85;font-weight:300;max-width:380px}
+  .hero-meta{display:flex;flex-direction:column;gap:1.5rem;align-items:flex-end}
+  .meta-item{text-align:right}
+  .meta-label{font-family:var(--mono);font-size:10px;color:rgba(240,239,232,0.2);letter-spacing:0.12em;margin-bottom:0.3rem}
+  .meta-value{font-size:13px;color:var(--dim);font-weight:300}
+  .cta-row{display:flex;gap:1rem;margin-top:2rem;justify-content:flex-end}
+  .btn-outline{padding:0.6rem 1.5rem;border:1px solid rgba(240,239,232,0.2);border-radius:5px;font-size:12px;font-family:var(--mono);color:var(--dim);background:transparent;cursor:pointer;letter-spacing:0.06em;transition:all 0.2s}
+  .btn-outline:hover{border-color:rgba(240,239,232,0.45);color:var(--white)}
+  .btn-fill{padding:0.6rem 1.5rem;border:none;border-radius:5px;font-size:12px;font-family:var(--mono);color:#080808;background:var(--white);cursor:pointer;letter-spacing:0.06em;transition:all 0.2s}
+  .btn-fill:hover{background:#d8d7d0}
+  .divider{border:none;border-top:1px solid var(--border);margin:0}
+  .about{padding:7rem 2.5rem;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:200px 1fr;gap:5rem}
+  .section-label{font-family:var(--mono);font-size:10px;color:rgba(240,239,232,0.2);letter-spacing:0.14em;padding-top:0.4rem}
+  .about-content h2{font-size:clamp(1.8rem,3vw,2.8rem);font-weight:200;line-height:1.15;letter-spacing:-0.02em;margin-bottom:2rem;color:var(--white)}
+  .about-content p{font-size:15px;color:var(--dim);line-height:1.9;font-weight:300;max-width:560px}
+  .values{padding:0 2.5rem 7rem;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:200px 1fr;gap:5rem}
+  .val-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--border)}
+  .val-card{background:var(--bg);padding:2rem 1.75rem}
+  .val-num{font-family:var(--mono);font-size:10px;color:rgba(240,239,232,0.15);letter-spacing:0.1em;margin-bottom:1.25rem}
+  .val-title{font-size:15px;font-weight:400;color:var(--white);margin-bottom:0.6rem}
+  .val-desc{font-size:13px;color:rgba(240,239,232,0.35);line-height:1.75;font-weight:300}
+  .people{padding:0 2.5rem 7rem;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:200px 1fr;gap:5rem}
+  .person{display:flex;align-items:center;gap:2rem;padding:1.5rem 0;border-bottom:1px solid var(--border)}
+  .person:first-child{border-top:1px solid var(--border)}
+  .person-avatar{width:40px;height:40px;border-radius:50%;background:rgba(240,239,232,0.06);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;font-family:var(--mono);color:var(--dim);flex-shrink:0}
+  .person-info{flex:1}
+  .person-name{font-size:14px;font-weight:400;color:var(--white);margin-bottom:0.2rem}
+  .person-role{font-size:12px;font-family:var(--mono);color:rgba(240,239,232,0.25);letter-spacing:0.06em}
+  .person-tag{font-size:11px;font-family:var(--mono);color:rgba(240,239,232,0.18);letter-spacing:0.08em;text-decoration:none}
+  .sns-strip{padding:0 2.5rem 7rem;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:200px 1fr;gap:5rem}
+  .sns-links{display:flex;gap:1rem;flex-wrap:wrap}
+  .sns-btn{display:flex;align-items:center;gap:0.6rem;padding:0.65rem 1.2rem;border:1px solid var(--border);border-radius:6px;font-family:var(--mono);font-size:12px;color:var(--dim);text-decoration:none;letter-spacing:0.06em;transition:all 0.2s}
+  .sns-btn:hover{border-color:rgba(240,239,232,0.3);color:var(--white)}
+  .contact{padding:0 2.5rem 5rem;max-width:1100px;margin:0 auto}
+  .contact-inner{border:1px solid var(--border);border-radius:8px;padding:4rem;display:flex;justify-content:space-between;align-items:center;gap:3rem}
+  .contact-left h2{font-size:clamp(1.5rem,2.5vw,2.2rem);font-weight:200;letter-spacing:-0.02em;margin-bottom:0.75rem;color:var(--white)}
+  .contact-left p{font-size:14px;color:var(--dim);font-weight:300;line-height:1.7}
+  .contact-right{display:flex;flex-direction:column;gap:1rem;flex-shrink:0}
+  .contact-link{font-family:var(--mono);font-size:12px;color:var(--dim);text-decoration:none;letter-spacing:0.06em;display:flex;align-items:center;gap:0.75rem;transition:color 0.2s}
+  .contact-link:hover{color:var(--white)}
+  .contact-link span{color:rgba(240,239,232,0.2);min-width:80px}
+  footer{padding:1.5rem 2.5rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+  .footer-copy{font-family:var(--mono);font-size:10px;color:rgba(240,239,232,0.15);letter-spacing:0.1em}
+  .footer-slogan{font-family:var(--mono);font-size:10px;color:rgba(240,239,232,0.12);letter-spacing:0.14em}
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity 0.8s ease,transform 0.8s ease}
+  .reveal.on{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<div class="bg-line"></div>
+<div class="bg-line2"></div>
+
+<nav>
+  <div class="logo">
+    <div class="logo-key">shift</div>
+    <span class="logo-name">shiftsoft</span>
+  </div>
+  <div class="nav-right">
+    <a href="#about" class="nav-link">소개</a>
+    <a href="#people" class="nav-link">팀</a>
+    <a href="#contact" class="nav-link">연락</a>
+    <span class="nav-tag">stealth mode</span>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="eyebrow">
+    <span class="eyebrow-dot"></span>
+    <span class="eyebrow-text">SEOUL, KR — 설립 준비 중</span>
+  </div>
+  <h1>
+    무언가를<br>
+    <span class="italic muted">다르게</span><br>
+    만들고 있습니다
+  </h1>
+  <p class="slogan">— Shift the Standard</p>
+  <div class="hero-body reveal">
+    <p class="hero-desc">shiftsoft는 지금 조용히, 그리고 집요하게 무언가를 만들고 있습니다. 아직 말할 수 없지만 — 곧 보여드릴게요.</p>
+    <div class="hero-meta">
+      <div class="meta-item">
+        <div class="meta-label">STATUS</div>
+        <div class="meta-value">빌딩 중 🔨</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">STAGE</div>
+        <div class="meta-value">Pre-seed</div>
+      </div>
+      <div class="cta-row">
+        <button class="btn-outline" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">소식 받기</button>
+        <button class="btn-fill" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">더 알아보기</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="about reveal" id="about">
+  <span class="section-label">ABOUT</span>
+  <div class="about-content">
+    <h2>표준을 바꾸는 것은<br>늘 소수에서 시작됐습니다</h2>
+    <p>shiftsoft는 기존의 방식에 의문을 품은 사람들이 모인 팀입니다. 우리는 소프트웨어가 단순히 기능의 집합이 아니라, 사람의 경험을 바꾸는 도구라고 믿습니다.<br><br>지금 우리가 만들고 있는 것은 아직 공개하기 이릅니다. 하지만 한 가지는 말할 수 있어요 — 완성되면 꽤 달라 보일 겁니다.</p>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="values reveal" id="values">
+  <span class="section-label">VALUES</span>
+  <div class="val-grid">
+    <div class="val-card">
+      <div class="val-num">01</div>
+      <div class="val-title">기본에 집착한다</div>
+      <div class="val-desc">화려함보다 본질. 트렌드보다 원칙. 오래 가는 것을 만듭니다.</div>
+    </div>
+    <div class="val-card">
+      <div class="val-num">02</div>
+      <div class="val-title">느리게, 제대로</div>
+      <div class="val-desc">빠른 실패보다 깊은 이해. 서두르지 않지만 멈추지도 않습니다.</div>
+    </div>
+    <div class="val-card">
+      <div class="val-num">03</div>
+      <div class="val-title">사용자가 먼저다</div>
+      <div class="val-desc">우리가 만드는 모든 것의 중심에는 사람이 있습니다. 항상.</div>
+    </div>
+    <div class="val-card">
+      <div class="val-num">04</div>
+      <div class="val-title">투명하게 일한다</div>
+      <div class="val-desc">팀 안에서도, 밖에서도. 솔직함이 신뢰의 시작이라고 믿습니다.</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="people reveal" id="people">
+  <span class="section-label">TEAM</span>
+  <div>
+    <div class="person">
+      <div class="person-avatar">김</div>
+      <div class="person-info">
+        <div class="person-name">김희성</div>
+        <div class="person-role">FOUNDER & CEO</div>
+      </div>
+      <span class="person-tag">서울</span>
+    </div>
+    <div class="person">
+      <div class="person-avatar">+</div>
+      <div class="person-info">
+        <div class="person-name">함께할 사람을 찾고 있습니다</div>
+        <div class="person-role">OPEN POSITION</div>
+      </div>
+      <a href="mailto:shiftsoft27@gmail.com" class="person-tag" style="color:rgba(240,239,232,0.35)">지원하기 →</a>
+    </div>
+    <p style="margin-top:1.5rem;font-size:13px;color:rgba(240,239,232,0.2);font-family:'DM Mono',monospace;letter-spacing:0.06em">작은 팀, 큰 야망. 같이 만들어볼 분 환영합니다.</p>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="sns-strip reveal" id="sns">
+  <span class="section-label">FOLLOW</span>
+  <div>
+    <p style="font-size:14px;color:var(--dim);font-weight:300;margin-bottom:1.5rem">우리가 만들어가는 과정을 인스타그램에서 먼저 확인하세요.</p>
+    <div class="sns-links">
+      <a href="https://instagram.com/shift_.soft" target="_blank" class="sns-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:0.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        @shift_.soft
+      </a>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="contact reveal" id="contact" style="padding-top:5rem">
+  <div class="contact-inner">
+    <div class="contact-left">
+      <h2>이야기 나눠요</h2>
+      <p>투자 문의, 협업 제안,<br>혹은 그냥 인사도 환영합니다.<br>대표 김희성이 직접 읽습니다.</p>
+    </div>
+    <div class="contact-right">
+      <a href="mailto:shiftsoft27@gmail.com" class="contact-link">
+        <span>EMAIL</span> shiftsoft27@gmail.com
+      </a>
+      <a href="https://instagram.com/shift_.soft" target="_blank" class="contact-link">
+        <span>INSTAGRAM</span> @shift_.soft
+      </a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div style="display:flex;align-items:center;gap:1rem">
+    <div style="width:44px;height:17px;border:1.5px solid rgba(240,239,232,0.15);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:8px;font-family:'DM Mono',monospace;color:rgba(240,239,232,0.2);letter-spacing:0.05em">shift</div>
+    <span class="footer-copy">© 2026 SHIFTSOFT</span>
+  </div>
+  <span class="footer-slogan">SHIFT THE STANDARD</span>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('on') });
+  },{threshold:0.1});
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
